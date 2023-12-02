@@ -8,6 +8,7 @@
         {
             string[] lines = await File.ReadAllLinesAsync(filePath);
             int sum = 0;
+            int power = 0;
 
             foreach (string line in lines)
             {
@@ -17,8 +18,11 @@
                 {
                     sum += GameID(line, colonIndex);
                 }
+                var minValues = MinimumValues(gameString);
+                power += Power(minValues);
             }
-            Console.WriteLine(sum);
+            Console.WriteLine("sum: " + sum);
+            Console.WriteLine("power: " + power);
         }
         catch (IOException e)
         {
@@ -54,5 +58,32 @@
             }
         }
         return true;
+    }
+
+    static Dictionary<string, int> MinimumValues(string gameString)
+    {
+        Dictionary<string, int> RGBMinValues = new()
+        {
+            {"red", 0},
+            {"green", 0},
+            {"blue", 0}
+        };
+
+        string[] gameValues = gameString.Split(new char[] { ',', ';' });
+        foreach (var value in gameValues)
+        {
+            string colour = value.Split(' ').Last();
+            int colourValue = int.Parse(value.TrimStart().Split(' ').First());
+            if (RGBMinValues[colour] < colourValue)
+            {
+                RGBMinValues[colour] = colourValue;
+            }
+        }
+        return RGBMinValues;
+    }
+
+    static int Power(Dictionary<string, int> minValues)
+    {
+        return minValues["red"] * minValues["green"] * minValues["blue"];
     }
 }
