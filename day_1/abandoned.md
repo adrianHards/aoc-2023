@@ -1,3 +1,5 @@
+Does not work with `eighthree`, or `sevenine`.
+
 ```csharp
 int windowSize = 5;
 bool breakFirstLoop = false;
