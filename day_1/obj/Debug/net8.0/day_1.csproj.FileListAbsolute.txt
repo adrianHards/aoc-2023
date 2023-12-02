@@ -1,0 +1,14 @@
+/Users/ahards/Code/aoc/day_1/bin/Debug/net8.0/day_1
+/Users/ahards/Code/aoc/day_1/bin/Debug/net8.0/day_1.deps.json
+/Users/ahards/Code/aoc/day_1/bin/Debug/net8.0/day_1.runtimeconfig.json
+/Users/ahards/Code/aoc/day_1/bin/Debug/net8.0/day_1.dll
+/Users/ahards/Code/aoc/day_1/bin/Debug/net8.0/day_1.pdb
+/Users/ahards/Code/aoc/day_1/obj/Debug/net8.0/day_1.GeneratedMSBuildEditorConfig.editorconfig
+/Users/ahards/Code/aoc/day_1/obj/Debug/net8.0/day_1.AssemblyInfoInputs.cache
+/Users/ahards/Code/aoc/day_1/obj/Debug/net8.0/day_1.AssemblyInfo.cs
+/Users/ahards/Code/aoc/day_1/obj/Debug/net8.0/day_1.csproj.CoreCompileInputs.cache
+/Users/ahards/Code/aoc/day_1/obj/Debug/net8.0/day_1.dll
+/Users/ahards/Code/aoc/day_1/obj/Debug/net8.0/refint/day_1.dll
+/Users/ahards/Code/aoc/day_1/obj/Debug/net8.0/day_1.pdb
+/Users/ahards/Code/aoc/day_1/obj/Debug/net8.0/day_1.genruntimeconfig.cache
+/Users/ahards/Code/aoc/day_1/obj/Debug/net8.0/ref/day_1.dll
