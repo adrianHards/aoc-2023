@@ -108,6 +108,54 @@
         {
         }
 
+        try
+        {
+            char charAboveToRight = test_input[row_i - 1][char_i - 1];
+            if (charAboveToRight == '*')
+            {
+                return true;
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
+
+        try
+        {
+            char charAboveToLeft = test_input[row_i - 1][char_i + 1];
+            if (charAboveToLeft == '*')
+            {
+                return true;
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
+
+        try
+        {
+            char charBelowToLeft = test_input[row_i + 1][char_i - 1];
+            if (charBelowToLeft == '*')
+            {
+                return true;
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
+
+        try
+        {
+            char charBelowToRight = test_input[row_i + 1][char_i + 1];
+            if (charBelowToRight == '*')
+            {
+                return true;
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
+
         return false;
     }
 }
