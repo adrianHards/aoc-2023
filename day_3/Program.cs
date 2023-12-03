@@ -49,7 +49,7 @@
             char currentChar = row[i];
             if (char.IsDigit(currentChar))
             {
-                if (CheckIfPartNum(currentChar, i, row, row_i))
+                if (CheckIfPartNum(i, row, row_i))
                 {
                     (int num, int endIndex) = GetFullNum(i, row);
                     i = endIndex;
@@ -66,27 +66,37 @@
         string num_string = "";
         int startIndex = char_i;
 
-        while (startIndex >= 0 && !char.IsDigit(row[startIndex]))
+        while (true)
         {
-            startIndex--;
+            if (startIndex > 0 && char.IsDigit(row[startIndex - 1]))
+            {
+                startIndex--;
+            }
+            else
+            {
+                break;
+            }
         }
 
         while (char.IsDigit(row[startIndex]))
         {
+            Console.WriteLine(num_string);
             num_string += row[startIndex];
+            Console.WriteLine(num_string);
             startIndex++;
         }
 
         int number = int.Parse(num_string);
+        Console.WriteLine(number);
         return (number, startIndex);
     }
 
-    static bool CheckIfPartNum(char currentChar, int char_i, string row, int row_i)
+    static bool CheckIfPartNum(int char_i, string row, int row_i)
     {
         try
         {
             char charToLeft = row[char_i - 1];
-            if (charToLeft == '*')
+            if (!char.IsDigit(charToLeft) && charToLeft != '.')
             {
                 return true;
             }
@@ -98,7 +108,7 @@
         try
         {
             char charToRight = row[char_i + 1];
-            if (charToRight == '*')
+            if (!char.IsDigit(charToRight) && charToRight != '.')
             {
                 return true;
             }
@@ -110,7 +120,7 @@
         try
         {
             char charAbove = test_input[row_i - 1][char_i];
-            if (charAbove == '*')
+            if (!char.IsDigit(charAbove) && charAbove != '.')
             {
                 return true;
             }
@@ -122,7 +132,7 @@
         try
         {
             char charBelow = test_input[row_i + 1][char_i];
-            if (charBelow == '*')
+            if (!char.IsDigit(charBelow) && charBelow != '.')
             {
                 return true;
             }
@@ -134,7 +144,7 @@
         try
         {
             char charAboveToRight = test_input[row_i - 1][char_i - 1];
-            if (charAboveToRight == '*')
+            if (!char.IsDigit(charAboveToRight) && charAboveToRight != '.')
             {
                 return true;
             }
@@ -146,7 +156,7 @@
         try
         {
             char charAboveToLeft = test_input[row_i - 1][char_i + 1];
-            if (charAboveToLeft == '*')
+            if (!char.IsDigit(charAboveToLeft) && charAboveToLeft != '.')
             {
                 return true;
             }
@@ -158,7 +168,7 @@
         try
         {
             char charBelowToLeft = test_input[row_i + 1][char_i - 1];
-            if (charBelowToLeft == '*')
+            if (!char.IsDigit(charBelowToLeft) && charBelowToLeft != '.')
             {
                 return true;
             }
@@ -170,7 +180,7 @@
         try
         {
             char charBelowToRight = test_input[row_i + 1][char_i + 1];
-            if (charBelowToRight == '*')
+            if (!char.IsDigit(charBelowToRight) && charBelowToRight != '.')
             {
                 return true;
             }
