@@ -1,6 +1,6 @@
 ﻿class Program
 {
-    // static string[] test_input = new string[]
+    // static string[] partsArray = new string[]
     // {
     //     "467..114..",
     //     "...*......",
@@ -48,18 +48,39 @@
         for (int i = 0; i < row.Length; i++)
         {
             char currentChar = row[i];
-            if (char.IsDigit(currentChar))
+            // if (char.IsDigit(currentChar))
+            // {
+            //     if (CheckIfPartNum(i, row, row_i))
+            //     {
+            //         (int num, int endIndex) = GetFullNum(i, row);
+            //         i = endIndex;
+            //         sum += num;
+            //     }
+            // }
+            if (currentChar == '*')
             {
-                if (CheckIfPartNum(i, row, row_i))
-                {
-                    (int num, int endIndex) = GetFullNum(i, row);
-                    i = endIndex;
-                    sum += num;
-                }
+                int num = GearRatio(i, row, row_i);
+                sum += num;
             }
         }
 
         return sum;
+    }
+
+    static int GearRatio(int char_i, string row, int row_i)
+    {
+        int[] numsToMultiply = NumbersAround(char_i, row, row_i);
+        foreach (int num in numsToMultiply)
+        {
+            Console.WriteLine(numsToMultiply.Length);
+            Console.WriteLine(num);
+        }
+        Console.WriteLine(numsToMultiply.Length);
+        if (numsToMultiply.Length == 2)
+        {
+            return numsToMultiply[0] * numsToMultiply[1];
+        }
+        return 0;
     }
 
     static (int, int) GetFullNum(int char_i, string row)
@@ -72,7 +93,6 @@
             if (startIndex > 0 && char.IsDigit(row[startIndex - 1]))
             {
                 startIndex--;
-                Console.WriteLine("startIndex " + startIndex);
             }
             else
             {
@@ -95,7 +115,7 @@
         try
         {
             char charToLeft = row[char_i - 1];
-            if (!char.IsDigit(charToLeft) && charToLeft != '.')
+            if (!char.IsDigit(charToLeft) && charToLeft != '.' && charToLeft != '*')
             {
                 return true;
             }
@@ -107,7 +127,7 @@
         try
         {
             char charToRight = row[char_i + 1];
-            if (!char.IsDigit(charToRight) && charToRight != '.')
+            if (!char.IsDigit(charToRight) && charToRight != '.' && charToRight != '*')
             {
                 return true;
             }
@@ -119,7 +139,7 @@
         try
         {
             char charAbove = partsArray[row_i - 1][char_i];
-            if (!char.IsDigit(charAbove) && charAbove != '.')
+            if (!char.IsDigit(charAbove) && charAbove != '.' && charAbove != '*')
             {
                 return true;
             }
@@ -131,7 +151,7 @@
         try
         {
             char charBelow = partsArray[row_i + 1][char_i];
-            if (!char.IsDigit(charBelow) && charBelow != '.')
+            if (!char.IsDigit(charBelow) && charBelow != '.' && charBelow != '*')
             {
                 return true;
             }
@@ -143,7 +163,7 @@
         try
         {
             char charAboveToRight = partsArray[row_i - 1][char_i - 1];
-            if (!char.IsDigit(charAboveToRight) && charAboveToRight != '.')
+            if (!char.IsDigit(charAboveToRight) && charAboveToRight != '.' && charAboveToRight != '*')
             {
                 return true;
             }
@@ -155,7 +175,7 @@
         try
         {
             char charAboveToLeft = partsArray[row_i - 1][char_i + 1];
-            if (!char.IsDigit(charAboveToLeft) && charAboveToLeft != '.')
+            if (!char.IsDigit(charAboveToLeft) && charAboveToLeft != '.' && charAboveToLeft != '*')
             {
                 return true;
             }
@@ -167,7 +187,7 @@
         try
         {
             char charBelowToLeft = partsArray[row_i + 1][char_i - 1];
-            if (!char.IsDigit(charBelowToLeft) && charBelowToLeft != '.')
+            if (!char.IsDigit(charBelowToLeft) && charBelowToLeft != '.' && charBelowToLeft != '*')
             {
                 return true;
             }
@@ -179,7 +199,7 @@
         try
         {
             char charBelowToRight = partsArray[row_i + 1][char_i + 1];
-            if (!char.IsDigit(charBelowToRight) && charBelowToRight != '.')
+            if (!char.IsDigit(charBelowToRight) && charBelowToRight != '.' && charBelowToRight != '*')
             {
                 return true;
             }
@@ -189,5 +209,124 @@
         }
 
         return false;
+    }
+
+    static int[] NumbersAround(int char_i, string row, int row_i)
+    {
+        HashSet<int> numSet = new HashSet<int>();
+
+        try
+        {
+            char charToLeft = row[char_i - 1];
+            if (char.IsDigit(charToLeft))
+            {
+                int index = char_i - 1;
+                var (num, endIndex) = GetFullNum(index, row);
+                numSet.Add(num);
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
+
+        try
+        {
+            char charToRight = row[char_i + 1];
+            if (char.IsDigit(charToRight))
+            {
+                int index = char_i + 1;
+                var (num, endIndex) = GetFullNum(index, row);
+                numSet.Add(num);
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
+
+        try
+        {
+            char charAbove = partsArray[row_i - 1][char_i];
+            if (char.IsDigit(charAbove))
+            {
+                int index = char_i;
+                var (num, endIndex) = GetFullNum(index, partsArray[row_i - 1]);
+                numSet.Add(num);
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
+
+        try
+        {
+            char charBelow = partsArray[row_i + 1][char_i];
+            if (char.IsDigit(charBelow))
+            {
+                int index = char_i;
+                var (num, endIndex) = GetFullNum(index, partsArray[row_i + 1]);
+                numSet.Add(num);
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
+
+        try
+        {
+            char charAboveToRight = partsArray[row_i - 1][char_i - 1];
+            if (char.IsDigit(charAboveToRight))
+            {
+                int index = char_i - 1;
+                var (num, endIndex) = GetFullNum(index, partsArray[row_i - 1]);
+                numSet.Add(num);
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
+
+        try
+        {
+            char charAboveToLeft = partsArray[row_i - 1][char_i + 1];
+            if (char.IsDigit(charAboveToLeft))
+            {
+                int index = char_i + 1;
+                var (num, endIndex) = GetFullNum(index, partsArray[row_i - 1]);
+                numSet.Add(num);
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
+
+        try
+        {
+            char charBelowToLeft = partsArray[row_i + 1][char_i - 1];
+            if (char.IsDigit(charBelowToLeft))
+            {
+                int index = char_i - 1;
+                var (num, endIndex) = GetFullNum(index, partsArray[row_i + 1]);
+                numSet.Add(num);
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
+
+        try
+        {
+            char charBelowToRight = partsArray[row_i + 1][char_i + 1];
+            if (char.IsDigit(charBelowToRight))
+            {
+                int index = char_i + 1;
+                var (num, endIndex) = GetFullNum(index, partsArray[row_i + 1]);
+                numSet.Add(num);
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
+
+        return numSet.ToArray();
     }
 }
