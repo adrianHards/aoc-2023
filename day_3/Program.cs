@@ -1,18 +1,19 @@
 ﻿class Program
 {
-    static string[] test_input = new string[]
-    {
-        "467..114..",
-        "...*......",
-        "..35..633.",
-        "......#...",
-        "617*......",
-        ".....+.58.",
-        "..592.....",
-        "......755.",
-        "...$.*....",
-        ".664.598..",
-    };
+    // static string[] test_input = new string[]
+    // {
+    //     "467..114..",
+    //     "...*......",
+    //     "..35..633.",
+    //     "......#...",
+    //     "617*......",
+    //     ".....+.58.",
+    //     "..592.....",
+    //     "......755.",
+    //     "...$.*....",
+    //     ".664.598..",
+    // };
+
     static string[] partsArray = new string[0];
     static async Task Main()
     {
@@ -25,9 +26,9 @@
 
             int sum = 0;
 
-            for (int i = 0; i < test_input.Length; i++)
+            for (int i = 0; i < partsArray.Length; i++)
             {
-                string row = test_input[i];
+                string row = partsArray[i];
                 int row_i = i;
                 sum += PartNumber(row, row_i);
             }
@@ -65,12 +66,15 @@
     {
         string num_string = "";
         int startIndex = char_i;
+        Console.WriteLine("char index: " + char_i);
+        Console.WriteLine("row length: " + row.Length);
 
         while (true)
         {
             if (startIndex > 0 && char.IsDigit(row[startIndex - 1]))
             {
                 startIndex--;
+                Console.WriteLine("startIndex " + startIndex);
             }
             else
             {
@@ -78,16 +82,14 @@
             }
         }
 
-        while (char.IsDigit(row[startIndex]))
+        while (startIndex < row.Length && char.IsDigit(row[startIndex]))
         {
-            Console.WriteLine(num_string);
             num_string += row[startIndex];
-            Console.WriteLine(num_string);
             startIndex++;
         }
 
         int number = int.Parse(num_string);
-        Console.WriteLine(number);
+        Console.WriteLine("completed: " + startIndex + ", number: " + number);
         return (number, startIndex);
     }
 
@@ -119,7 +121,7 @@
 
         try
         {
-            char charAbove = test_input[row_i - 1][char_i];
+            char charAbove = partsArray[row_i - 1][char_i];
             if (!char.IsDigit(charAbove) && charAbove != '.')
             {
                 return true;
@@ -131,7 +133,7 @@
 
         try
         {
-            char charBelow = test_input[row_i + 1][char_i];
+            char charBelow = partsArray[row_i + 1][char_i];
             if (!char.IsDigit(charBelow) && charBelow != '.')
             {
                 return true;
@@ -143,7 +145,7 @@
 
         try
         {
-            char charAboveToRight = test_input[row_i - 1][char_i - 1];
+            char charAboveToRight = partsArray[row_i - 1][char_i - 1];
             if (!char.IsDigit(charAboveToRight) && charAboveToRight != '.')
             {
                 return true;
@@ -155,7 +157,7 @@
 
         try
         {
-            char charAboveToLeft = test_input[row_i - 1][char_i + 1];
+            char charAboveToLeft = partsArray[row_i - 1][char_i + 1];
             if (!char.IsDigit(charAboveToLeft) && charAboveToLeft != '.')
             {
                 return true;
@@ -167,7 +169,7 @@
 
         try
         {
-            char charBelowToLeft = test_input[row_i + 1][char_i - 1];
+            char charBelowToLeft = partsArray[row_i + 1][char_i - 1];
             if (!char.IsDigit(charBelowToLeft) && charBelowToLeft != '.')
             {
                 return true;
@@ -179,7 +181,7 @@
 
         try
         {
-            char charBelowToRight = test_input[row_i + 1][char_i + 1];
+            char charBelowToRight = partsArray[row_i + 1][char_i + 1];
             if (!char.IsDigit(charBelowToRight) && charBelowToRight != '.')
             {
                 return true;
