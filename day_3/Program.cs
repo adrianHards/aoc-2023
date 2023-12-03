@@ -26,12 +26,13 @@
                 ".664.598..",
             };
 
-            foreach (string row in test_input)
+            for (int i = 0; i < test_input.Length; i++)
             {
-                {
-                    sum += PartNumber(row);
-                }
+                string row = test_input[i];
+                int row_i = i;
+                sum += PartNumber(row, row_i);
             }
+
             Console.WriteLine("sum: " + sum);
         }
         catch (IOException e)
@@ -40,7 +41,7 @@
         }
     }
 
-    static int PartNumber(string row)
+    static int PartNumber(string row, int row_i)
     {
         int sum = 0;
 
@@ -48,7 +49,7 @@
         {
             if (char.IsDigit(chr))
             {
-                if (CheckIfPartNum(chr))
+                if (CheckIfPartNum(chr, row_i))
                 {
                     return 0;
                 }
@@ -58,8 +59,9 @@
         return sum;
     }
 
-    static bool CheckIfPartNum(char chr)
+    static bool CheckIfPartNum(char chr, int row_i)
     {
-        return true;
+
+        return false;
     }
 }
