@@ -84,7 +84,30 @@
         {
         }
 
+        try
+        {
+            char charAbove = test_input[row_i - 1][char_i];
+            if (charAbove == '*')
+            {
+                return true;
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
+
+        try
+        {
+            char charBelow = test_input[row_i + 1][char_i];
+            if (charBelow == '*')
+            {
+                return true;
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
+
         return false;
     }
-
 }
