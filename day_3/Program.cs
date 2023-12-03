@@ -70,12 +70,7 @@
     static int GearRatio(int char_i, string row, int row_i)
     {
         int[] numsToMultiply = NumbersAround(char_i, row, row_i);
-        foreach (int num in numsToMultiply)
-        {
-            Console.WriteLine(numsToMultiply.Length);
-            Console.WriteLine(num);
-        }
-        Console.WriteLine(numsToMultiply.Length);
+
         if (numsToMultiply.Length == 2)
         {
             return numsToMultiply[0] * numsToMultiply[1];
