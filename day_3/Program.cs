@@ -51,9 +51,8 @@
             {
                 if (CheckIfPartNum(currentChar, i, row, row_i))
                 {
-                    int num = GetFullNum(i, row);
-                    int end_of_num_i = GetEndOfNumIndex(num);
-                    i = end_of_num_i;
+                    (int num, int endIndex) = GetFullNum(i, row);
+                    i = endIndex;
                     sum += num;
                 }
             }
@@ -62,12 +61,7 @@
         return sum;
     }
 
-    static int GetEndOfNumIndex(num)
-    {
-
-    }
-
-    static int GetFullNum(int char_i, string row)
+    static (int, int) GetFullNum(int char_i, string row)
     {
         string num_string = "";
         int startIndex = char_i;
@@ -83,9 +77,9 @@
             startIndex++;
         }
 
-        return int.Parse(num_string);
+        int number = int.Parse(num_string);
+        return (number, startIndex);
     }
-
 
     static bool CheckIfPartNum(char currentChar, int char_i, string row, int row_i)
     {
