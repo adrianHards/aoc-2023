@@ -42,12 +42,24 @@
 
     static int PartNumber(string row)
     {
+        int sum = 0;
 
         foreach (char chr in row)
         {
-            Console.WriteLine(chr);
+            if (char.IsDigit(chr))
+            {
+                if (CheckIfPartNum(chr))
+                {
+                    return 0;
+                }
+            }
         }
 
-        return 0;
+        return sum;
+    }
+
+    static bool CheckIfPartNum(char chr)
+    {
+        return true;
     }
 }
