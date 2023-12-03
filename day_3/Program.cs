@@ -51,13 +51,42 @@
             {
                 if (CheckIfPartNum(currentChar, i, row, row_i))
                 {
-                    return 0;
+                    int num = GetFullNum(i, row);
+                    int end_of_num_i = GetEndOfNumIndex(num);
+                    i = end_of_num_i;
+                    sum += num;
                 }
             }
         }
 
         return sum;
     }
+
+    static int GetEndOfNumIndex(num)
+    {
+
+    }
+
+    static int GetFullNum(int char_i, string row)
+    {
+        string num_string = "";
+        int startIndex = char_i;
+
+        while (startIndex >= 0 && !char.IsDigit(row[startIndex]))
+        {
+            startIndex--;
+        }
+
+        while (char.IsDigit(row[startIndex]))
+        {
+            num_string += row[startIndex];
+            startIndex++;
+        }
+
+        return int.Parse(num_string);
+    }
+
+
     static bool CheckIfPartNum(char currentChar, int char_i, string row, int row_i)
     {
         try
