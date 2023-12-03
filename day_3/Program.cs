@@ -1,5 +1,18 @@
 ﻿class Program
 {
+    static string[] test_input = new string[]
+    {
+        "467..114..",
+        "...*......",
+        "..35..633.",
+        "......#...",
+        "617*......",
+        ".....+.58.",
+        "..592.....",
+        "......755.",
+        "...$.*....",
+        ".664.598..",
+    };
     static string[] partsArray = new string[0];
     static async Task Main()
     {
@@ -11,20 +24,6 @@
             partsArray = partsArray.Concat(rows).ToArray();
 
             int sum = 0;
-
-            string[] test_input = new string[]
-            {
-                "467..114..",
-                "...*......",
-                "..35..633.",
-                "......#...",
-                "617*......",
-                ".....+.58.",
-                "..592.....",
-                "......755.",
-                "...$.*....",
-                ".664.598..",
-            };
 
             for (int i = 0; i < test_input.Length; i++)
             {
@@ -45,11 +44,12 @@
     {
         int sum = 0;
 
-        foreach (char chr in row)
+        for (int i = 0; i < row.Length; i++)
         {
-            if (char.IsDigit(chr))
+            char currentChar = row[i];
+            if (char.IsDigit(currentChar))
             {
-                if (CheckIfPartNum(chr, row_i))
+                if (CheckIfPartNum(currentChar, i, row, row_i))
                 {
                     return 0;
                 }
@@ -58,10 +58,33 @@
 
         return sum;
     }
-
-    static bool CheckIfPartNum(char chr, int row_i)
+    static bool CheckIfPartNum(char currentChar, int char_i, string row, int row_i)
     {
+        try
+        {
+            char charToLeft = row[char_i - 1];
+            if (charToLeft == '*')
+            {
+                return true;
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
+
+        try
+        {
+            char charToRight = row[char_i + 1];
+            if (charToRight == '*')
+            {
+                return true;
+            }
+        }
+        catch (IndexOutOfRangeException)
+        {
+        }
 
         return false;
     }
+
 }
