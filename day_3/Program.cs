@@ -66,8 +66,6 @@
     {
         string num_string = "";
         int startIndex = char_i;
-        Console.WriteLine("char index: " + char_i);
-        Console.WriteLine("row length: " + row.Length);
 
         while (true)
         {
@@ -89,7 +87,6 @@
         }
 
         int number = int.Parse(num_string);
-        Console.WriteLine("completed: " + startIndex + ", number: " + number);
         return (number, startIndex);
     }
 
