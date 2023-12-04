@@ -2,7 +2,7 @@
 
 class Program
 {
-    // static string[] gamesArray = new string[]
+    // static string[] cardsArray = new string[]
     // {
     //     "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53",
     //     "Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19",
@@ -12,26 +12,44 @@ class Program
     //     "Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11"
     // };
 
-    static string[] gamesArray = new string[0];
     static async Task Main()
     {
         string filePath = "./input.txt";
 
         try
         {
+            string[] cardsArray = new string[0];
             string[] rows = await File.ReadAllLinesAsync(filePath);
-            gamesArray = gamesArray.Concat(rows).ToArray();
+            cardsArray = cardsArray.Concat(rows).ToArray();
 
-            int sum = 0;
+            Dictionary<int, int> scratchCardDict = Enumerable.Range(1, cardsArray.Count()).ToDictionary(key => key, value => 1);
 
-            foreach (string row in gamesArray)
+            foreach (string row in cardsArray)
             {
-                IEnumerable<string> commonCards = CommonCards(row);
-                int numSharedCards = commonCards.Count();
-                int bonusPoints = numSharedCards >= 1 ? (int)Math.Pow(2, numSharedCards - 1) : 0;
-                sum += bonusPoints;
+                (int currentCardIndex, int commonCards) = CommonCards(row);
+                int nextCardIndex = currentCardIndex + 1;
+                int iterations = scratchCardDict[currentCardIndex];
+
+                for (int i = 0; i < iterations; i++)
+                {
+                    foreach (int num in Enumerable.Range(nextCardIndex, commonCards))
+                    {
+                        try
+                        {
+                            scratchCardDict[num] += 1;
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                        }
+                    }
+                }
             }
 
+            int sum = scratchCardDict.Values.Sum();
+            foreach (var kvp in scratchCardDict)
+            {
+                Console.WriteLine(kvp.Value);
+            }
             Console.WriteLine("sum: " + sum);
         }
         catch (IOException e)
@@ -39,12 +57,13 @@ class Program
             Console.WriteLine("An error occurred while reading the file: " + e.Message);
         }
 
-        static IEnumerable<string> CommonCards(string cards)
+        static (int, int) CommonCards(string cards)
         {
             string[] cardArray = cards.Split(':', '|');
+            int cardNumber = int.Parse(cardArray[0].Split(' ')[1]);
             string[] winningCards = cardArray[1].Split(' ', StringSplitOptions.RemoveEmptyEntries);
             string[] playerCards = cardArray[2].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            return winningCards.Intersect(playerCards);
+            return (cardNumber, winningCards.Intersect(playerCards).Count());
         }
     }
 }
