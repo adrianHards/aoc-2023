@@ -37,10 +37,6 @@ class Program
             }
 
             int sum = scratchCardDict.Values.Sum();
-            foreach (var kvp in scratchCardDict)
-            {
-                Console.WriteLine(kvp.Value);
-            }
             Console.WriteLine("sum: " + sum);
         }
         catch (IOException e)
