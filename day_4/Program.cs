@@ -24,13 +24,14 @@ class Program
 
             Dictionary<int, int> scratchCardDict = Enumerable.Range(1, cardsArray.Count()).ToDictionary(key => key, value => 1);
 
-            foreach (string row in cardsArray)
+            for (int i = 0; i < cardsArray.Length; i++)
             {
-                (int currentCardIndex, int commonCards) = CommonCards(row);
-                int nextCardIndex = currentCardIndex + 1;
-                int iterations = scratchCardDict[currentCardIndex];
+                string game = cardsArray[i];
+                int commonCards = CommonCards(game);
+                int nextCardIndex = i + 2;
+                int iterations = scratchCardDict[i + 1];
 
-                for (int i = 0; i < iterations; i++)
+                for (int j = 0; j < iterations; j++)
                 {
                     foreach (int num in Enumerable.Range(nextCardIndex, commonCards))
                     {
@@ -57,13 +58,13 @@ class Program
             Console.WriteLine("An error occurred while reading the file: " + e.Message);
         }
 
-        static (int, int) CommonCards(string cards)
+        static int CommonCards(string cards)
         {
             string[] cardArray = cards.Split(':', '|');
-            int cardNumber = int.Parse(cardArray[0].Split(' ')[1]);
+            // int cardNumber = int.Parse(cardArray[0].Split(' ')[1]);
             string[] winningCards = cardArray[1].Split(' ', StringSplitOptions.RemoveEmptyEntries);
             string[] playerCards = cardArray[2].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            return (cardNumber, winningCards.Intersect(playerCards).Count());
+            return winningCards.Intersect(playerCards).Count();
         }
     }
 }
