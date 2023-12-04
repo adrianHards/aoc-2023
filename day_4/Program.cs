@@ -26,12 +26,9 @@ class Program
 
             foreach (string row in gamesArray)
             {
-                string[] cardArray = row.Split(':', '|');
-                string[] winningCards = cardArray[1].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                string[] playerCards = cardArray[2].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-                int commonCards = winningCards.Intersect(playerCards).Count();
-                int bonusPoints = commonCards >= 1 ? (int)Math.Pow(2, commonCards - 1) : 0;
+                IEnumerable<string> commonCards = CommonCards(row);
+                int numSharedCards = commonCards.Count();
+                int bonusPoints = numSharedCards >= 1 ? (int)Math.Pow(2, numSharedCards - 1) : 0;
                 sum += bonusPoints;
             }
 
@@ -40,6 +37,14 @@ class Program
         catch (IOException e)
         {
             Console.WriteLine("An error occurred while reading the file: " + e.Message);
+        }
+
+        static IEnumerable<string> CommonCards(string cards)
+        {
+            string[] cardArray = cards.Split(':', '|');
+            string[] winningCards = cardArray[1].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            string[] playerCards = cardArray[2].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            return winningCards.Intersect(playerCards);
         }
     }
 }
