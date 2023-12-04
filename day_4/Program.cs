@@ -26,10 +26,10 @@ class Program
 
             foreach (string row in gamesArray)
             {
-                string dataAfterColon = row.Split(':')[1].Trim();
-                string[] cardArray = dataAfterColon.Split('|', StringSplitOptions.RemoveEmptyEntries);
-                string[] winningCards = cardArray[0].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                string[] playerCards = cardArray[1].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                string[] cardArray = row.Split(':', '|');
+                string[] winningCards = cardArray[1].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                string[] playerCards = cardArray[2].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
                 int commonCards = winningCards.Intersect(playerCards).Count();
                 int bonusPoints = commonCards >= 1 ? (int)Math.Pow(2, commonCards - 1) : 0;
                 sum += bonusPoints;
