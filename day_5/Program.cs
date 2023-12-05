@@ -11,13 +11,16 @@ class Program
         {
             string seedContent = File.ReadAllText(filePath);
             string[] sections = seedContent.Split("\n\n");
-            string seedString = sections[0].Split(":")[1].Trim();
-            int[] seeds = Array.ConvertAll(seedString.Split(' '), int.Parse);
 
-            foreach (int seed in seeds)
-            {
-                Console.WriteLine(seed);
-            }
+            string seedString = sections[0].Split(":")[1].Trim();
+            int[] seedsArray = Array.ConvertAll(seedString.Split(' '), int.Parse);
+
+            string seedToSoilString = sections[1].Split(':')[1].Trim();
+            int[][] seedToSoilMap = seedToSoilString.Split('\n')
+                .Select(line => line.Split(' ')
+                .Select(int.Parse).ToArray())
+                .ToArray();
+
         }
         catch (IOException e)
         {
