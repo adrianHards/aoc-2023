@@ -58,7 +58,7 @@ namespace day_5
                             long value = row[0];
                             long lowerBound = row[1];
                             long upperBound = row[2] + lowerBound;
-                            Console.WriteLine("starting value: " + startingValue + " lowerbound: " + lowerBound + " upperbound: " + upperBound);
+                            // Console.WriteLine("starting value: " + startingValue + " lowerbound: " + lowerBound + " upperbound: " + upperBound);
 
                             if (IsInRange(startingValue, lowerBound, upperBound))
                             {
