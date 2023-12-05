@@ -6,8 +6,8 @@ namespace day_5
     {
         static void Main()
         {
-            // string filePath = "./input.txt";
-            string filePath = "./testData.txt";
+            string filePath = "./input.txt";
+            // string filePath = "./testData.txt";
 
             try
             {
@@ -17,6 +17,7 @@ namespace day_5
                 string seedString = sections[0].Split(":")[1].Trim();
                 long[] seedsArray = Array.ConvertAll(seedString.Split(' '), long.Parse);
 
+                Console.WriteLine("creating maps");
                 long[][] seedToSoilMap = GetMap(sections[1]);
                 long[][] soilToFertMap = GetMap(sections[2]);
                 long[][] fertToWaterMap = GetMap(sections[3]);
@@ -32,26 +33,40 @@ namespace day_5
                     seedValueDict[element] = element;
                 }
 
-                Dictionary<long, long>[] dicts =
-                [
-                    MakeDict(seedToSoilMap),
-                    MakeDict(soilToFertMap),
-                    MakeDict(fertToWaterMap),
-                    MakeDict(waterToLightMap),
-                    MakeDict(lightToTempMap),
-                    MakeDict(tempToHumidMap),
-                    MakeDict(humidToLocationMap)
-                ];
+                var maps = new[] { seedToSoilMap, soilToFertMap, fertToWaterMap, waterToLightMap, lightToTempMap, tempToHumidMap, humidToLocationMap };
+
+                // Dictionary<long, long>[] dicts =
+                // [
+                //     MakeDict(seedToSoilMap),
+                //     MakeDict(soilToFertMap),
+                //     MakeDict(fertToWaterMap),
+                //     MakeDict(waterToLightMap),
+                //     MakeDict(lightToTempMap),
+                //     MakeDict(tempToHumidMap),
+                //     MakeDict(humidToLocationMap)
+                // ];
 
                 for (int i = 0; i < seedsArray.Length; i++)
                 {
                     long startingValue = seedsArray[i];
+                    Console.WriteLine("seed: " + seedsArray[i]);
 
-                    foreach (Dictionary<long, long> dict in dicts)
+                    foreach (var map in maps)
                     {
-                        if (dict.TryGetValue(startingValue, out long value))
+                        foreach (var row in map)
                         {
-                            startingValue = value;
+                            long value = row[0];
+                            long lowerBound = row[1];
+                            long upperBound = row[2] + lowerBound;
+                            Console.WriteLine("starting value: " + startingValue + " lowerbound: " + lowerBound + " upperbound: " + upperBound);
+
+                            if (IsInRange(startingValue, lowerBound, upperBound))
+                            {
+                                long diff = startingValue - lowerBound;
+                                long modifier = diff + value;
+                                startingValue = modifier;
+                                break;
+                            }
                         }
                     }
                     seedValueDict[seedsArray[i]] = startingValue;
@@ -71,27 +86,32 @@ namespace day_5
                 .ToArray();
         }
 
-        static Dictionary<long, long> MakeDict(long[][] mapArray)
+        static bool IsInRange(long number, long lowerBound, long upperBound)
         {
-            Dictionary<long, long> newDict = [];
-
-            foreach (long[] row in mapArray)
-            {
-                long value = row[0];
-                long key = row[1];
-                long rangeLength = row[2];
-                long modifier = 0;
-
-                for (long i = key; i < (key + rangeLength); i++)
-                {
-                    if (!newDict.ContainsKey(i))
-                    {
-                        newDict[i] = value + modifier;
-                    }
-                    modifier++;
-                }
-            }
-            return newDict;
+            return number >= lowerBound && number < upperBound;
         }
+
+        // static Dictionary<long, long> MakeDict(long[][] mapArray)
+        // {
+        //     Dictionary<long, long> newDict = [];
+
+        //     foreach (long[] row in mapArray)
+        //     {
+        //         long value = row[0];
+        //         long key = row[1];
+        //         long rangeLength = row[2];
+        //         long modifier = 0;
+
+        //         for (long i = key; i < (key + rangeLength); i++)
+        //         {
+        //             if (!newDict.ContainsKey(i))
+        //             {
+        //                 newDict[i] = value + modifier;
+        //             }
+        //             modifier++;
+        //         }
+        //     }
+        //     return newDict;
+        // }
     }
 }
