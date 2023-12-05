@@ -51,6 +51,8 @@ class Program
                     }
                 }
             }
+
+            Console.WriteLine("lowest value: " + SeedValueDict.Values.Min());
         }
         catch (IOException e)
         {
