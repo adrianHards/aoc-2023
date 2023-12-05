@@ -4,8 +4,8 @@ class Program
 {
     static async Task Main()
     {
-        // string filePath = "./input.txt";
-        string filePath = "./testData.txt";
+        string filePath = "./input.txt";
+        // string filePath = "./testData.txt";
 
         try
         {
@@ -13,24 +13,24 @@ class Program
             string[] sections = seedContent.Split("\n\n");
 
             string seedString = sections[0].Split(":")[1].Trim();
-            int[] seedsArray = Array.ConvertAll(seedString.Split(' '), int.Parse);
+            long[] seedsArray = Array.ConvertAll(seedString.Split(' '), long.Parse);
 
-            int[][] seedToSoilMap = GetMap(sections[1]);
-            int[][] soilToFertMap = GetMap(sections[2]);
-            int[][] fertToWaterMap = GetMap(sections[3]);
-            int[][] waterToLightMap = GetMap(sections[4]);
-            int[][] lightToTempMap = GetMap(sections[5]);
-            int[][] tempToHumidMap = GetMap(sections[6]);
-            int[][] humidToLocationMap = GetMap(sections[7]);
+            long[][] seedToSoilMap = GetMap(sections[1]);
+            long[][] soilToFertMap = GetMap(sections[2]);
+            long[][] fertToWaterMap = GetMap(sections[3]);
+            long[][] waterToLightMap = GetMap(sections[4]);
+            long[][] lightToTempMap = GetMap(sections[5]);
+            long[][] tempToHumidMap = GetMap(sections[6]);
+            long[][] humidToLocationMap = GetMap(sections[7]);
 
-            Dictionary<int, int> seedValueDict = new Dictionary<int, int>();
+            Dictionary<long, long> seedValueDict = new Dictionary<long, long>();
 
-            foreach (int element in seedsArray)
+            foreach (long element in seedsArray)
             {
                 seedValueDict[element] = element;
             }
 
-            Dictionary<int, int>[] dicts = new Dictionary<int, int>[]
+            Dictionary<long, long>[] dicts = new Dictionary<long, long>[]
             {
                 MakeDict(seedToSoilMap),
                 MakeDict(soilToFertMap),
@@ -43,9 +43,9 @@ class Program
 
             for (int i = 0; i < seedsArray.Length; i++)
             {
-                int startingValue = seedsArray[i];
+                long startingValue = seedsArray[i];
 
-                foreach (Dictionary<int, int> dict in dicts)
+                foreach (Dictionary<long, long> dict in dicts)
                 {
                     if (dict.ContainsKey(startingValue))
                     {
@@ -61,26 +61,26 @@ class Program
             Console.WriteLine("An error occurred while reading the file: " + e.Message);
         }
     }
-    static int[][] GetMap(string mapString)
+    static long[][] GetMap(string mapString)
     {
         return mapString.Split(':')[1].Trim().Split('\n')
             .Select(line => line.Split(' ')
-            .Select(int.Parse).ToArray())
+            .Select(long.Parse).ToArray())
             .ToArray();
     }
 
-    static Dictionary<int, int> MakeDict(int[][] mapArray)
+    static Dictionary<long, long> MakeDict(long[][] mapArray)
     {
-        Dictionary<int, int> newDict = new Dictionary<int, int>();
+        Dictionary<long, long> newDict = new Dictionary<long, long>();
 
-        foreach (int[] row in mapArray)
+        foreach (long[] row in mapArray)
         {
-            int value = row[0];
-            int key = row[1];
-            int rangeLength = row[2];
-            int modifier = 0;
+            long value = row[0];
+            long key = row[1];
+            long rangeLength = row[2];
+            long modifier = 0;
 
-            for (int i = key; i < (key + rangeLength); i++)
+            for (long i = key; i < (key + rangeLength); i++)
             {
                 if (!newDict.ContainsKey(i))
                 {
@@ -92,4 +92,3 @@ class Program
         return newDict;
     }
 }
-
