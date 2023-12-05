@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace day_5
+﻿namespace day_5
 {
     class Program
     {
@@ -35,17 +33,6 @@ namespace day_5
 
                 var maps = new[] { seedToSoilMap, soilToFertMap, fertToWaterMap, waterToLightMap, lightToTempMap, tempToHumidMap, humidToLocationMap };
 
-                // Dictionary<long, long>[] dicts =
-                // [
-                //     MakeDict(seedToSoilMap),
-                //     MakeDict(soilToFertMap),
-                //     MakeDict(fertToWaterMap),
-                //     MakeDict(waterToLightMap),
-                //     MakeDict(lightToTempMap),
-                //     MakeDict(tempToHumidMap),
-                //     MakeDict(humidToLocationMap)
-                // ];
-
                 for (int i = 0; i < seedsArray.Length; i++)
                 {
                     long startingValue = seedsArray[i];
@@ -58,7 +45,6 @@ namespace day_5
                             long value = row[0];
                             long lowerBound = row[1];
                             long upperBound = row[2] + lowerBound;
-                            // Console.WriteLine("starting value: " + startingValue + " lowerbound: " + lowerBound + " upperbound: " + upperBound);
 
                             if (IsInRange(startingValue, lowerBound, upperBound))
                             {
@@ -90,28 +76,5 @@ namespace day_5
         {
             return number >= lowerBound && number < upperBound;
         }
-
-        // static Dictionary<long, long> MakeDict(long[][] mapArray)
-        // {
-        //     Dictionary<long, long> newDict = [];
-
-        //     foreach (long[] row in mapArray)
-        //     {
-        //         long value = row[0];
-        //         long key = row[1];
-        //         long rangeLength = row[2];
-        //         long modifier = 0;
-
-        //         for (long i = key; i < (key + rangeLength); i++)
-        //         {
-        //             if (!newDict.ContainsKey(i))
-        //             {
-        //                 newDict[i] = value + modifier;
-        //             }
-        //             modifier++;
-        //         }
-        //     }
-        //     return newDict;
-        // }
     }
 }
