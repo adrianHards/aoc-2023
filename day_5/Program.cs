@@ -30,17 +30,27 @@ class Program
                 SeedValueDict[element] = element;
             }
             // Dictionary<int, int> SeedValueDict = seedsArray.ToDictionary(key => key, value => value);
-            Dictionary<int, int> seedToSoilDict = MakeDict(seedToSoilMap);
-            Dictionary<int, int> soilToFertDict = MakeDict(soilToFertMap);
-            Dictionary<int, int> fertToWaterDict = MakeDict(fertToWaterMap);
-            Dictionary<int, int> waterToLightDict = MakeDict(waterToLightMap);
-            Dictionary<int, int> lightToTempDict = MakeDict(lightToTempMap);
-            Dictionary<int, int> tempToHumidDict = MakeDict(tempToHumidMap);
-            Dictionary<int, int> humidToLocationDict = MakeDict(humidToLocationMap);
 
-
-
-
+            Dictionary<int, int>[] dicts = new Dictionary<int, int>[]
+            {
+                MakeDict(seedToSoilMap),
+                MakeDict(soilToFertMap),
+                MakeDict(fertToWaterMap),
+                MakeDict(waterToLightMap),
+                MakeDict(lightToTempMap),
+                MakeDict(tempToHumidMap),
+                MakeDict(humidToLocationMap)
+            };
+            foreach (int key in SeedValueDict.Keys)
+            {
+                foreach (Dictionary<int, int> dict in dicts)
+                {
+                    if (dict.ContainsKey(key))
+                    {
+                        SeedValueDict[key] = dict[key];
+                    }
+                }
+            }
         }
         catch (IOException e)
         {
@@ -75,19 +85,11 @@ class Program
                 modifier++;
             }
         }
-        foreach (var kvp in newDict)
-        {
-            Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
-        }
+        // foreach (var kvp in newDict)
+        // {
+        //     Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
+        // }
         return newDict;
-    }
-
-    static bool IfKeyPresentReassign(string mapString)
-    {
-        return mapString.Split(':')[1].Trim().Split('\n')
-            .Select(line => line.Split(' ')
-            .Select(int.Parse).ToArray())
-            .ToArray();
     }
 }
 
