@@ -1,18 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using System.Numerics;
 
 namespace day_5
 {
     class Program
     {
-        static async Task Main()
+        static void Main()
         {
-            string filePath = "./input.txt";
-            // string filePath = "./testData.txt";
+            // string filePath = "./input.txt";
+            string filePath = "./testData.txt";
 
             try
             {
@@ -20,25 +15,25 @@ namespace day_5
                 string[] sections = seedContent.Split("\n\n");
 
                 string seedString = sections[0].Split(":")[1].Trim();
-                BigInteger[] seedsArray = Array.ConvertAll(seedString.Split(' '), BigInteger.Parse);
+                long[] seedsArray = Array.ConvertAll(seedString.Split(' '), long.Parse);
 
-                BigInteger[][] seedToSoilMap = GetMap(sections[1]);
-                BigInteger[][] soilToFertMap = GetMap(sections[2]);
-                BigInteger[][] fertToWaterMap = GetMap(sections[3]);
-                BigInteger[][] waterToLightMap = GetMap(sections[4]);
-                BigInteger[][] lightToTempMap = GetMap(sections[5]);
-                BigInteger[][] tempToHumidMap = GetMap(sections[6]);
-                BigInteger[][] humidToLocationMap = GetMap(sections[7]);
+                long[][] seedToSoilMap = GetMap(sections[1]);
+                long[][] soilToFertMap = GetMap(sections[2]);
+                long[][] fertToWaterMap = GetMap(sections[3]);
+                long[][] waterToLightMap = GetMap(sections[4]);
+                long[][] lightToTempMap = GetMap(sections[5]);
+                long[][] tempToHumidMap = GetMap(sections[6]);
+                long[][] humidToLocationMap = GetMap(sections[7]);
 
-                Dictionary<BigInteger, BigInteger> seedValueDict = new Dictionary<BigInteger, BigInteger>();
+                Dictionary<long, long> seedValueDict = [];
 
-                foreach (BigInteger element in seedsArray)
+                foreach (long element in seedsArray)
                 {
                     seedValueDict[element] = element;
                 }
 
-                Dictionary<BigInteger, BigInteger>[] dicts = new Dictionary<BigInteger, BigInteger>[]
-                {
+                Dictionary<long, long>[] dicts =
+                [
                     MakeDict(seedToSoilMap),
                     MakeDict(soilToFertMap),
                     MakeDict(fertToWaterMap),
@@ -46,17 +41,17 @@ namespace day_5
                     MakeDict(lightToTempMap),
                     MakeDict(tempToHumidMap),
                     MakeDict(humidToLocationMap)
-                };
+                ];
 
                 for (int i = 0; i < seedsArray.Length; i++)
                 {
-                    BigInteger startingValue = seedsArray[i];
+                    long startingValue = seedsArray[i];
 
-                    foreach (Dictionary<BigInteger, BigInteger> dict in dicts)
+                    foreach (Dictionary<long, long> dict in dicts)
                     {
-                        if (dict.ContainsKey(startingValue))
+                        if (dict.TryGetValue(startingValue, out long value))
                         {
-                            startingValue = dict[startingValue];
+                            startingValue = value;
                         }
                     }
                     seedValueDict[seedsArray[i]] = startingValue;
@@ -68,30 +63,30 @@ namespace day_5
                 Console.WriteLine("An error occurred while reading the file: " + e.Message);
             }
         }
-        static BigInteger[][] GetMap(string mapString)
+        static long[][] GetMap(string mapString)
         {
             return mapString.Split(':')[1].Trim().Split('\n')
                 .Select(line => line.Split(' ')
-                .Select(BigInteger.Parse).ToArray())
+                .Select(long.Parse).ToArray())
                 .ToArray();
         }
 
-        static Dictionary<BigInteger, BigInteger> MakeDict(BigInteger[][] mapArray)
+        static Dictionary<long, long> MakeDict(long[][] mapArray)
         {
-            Dictionary<BigInteger, BigInteger> newDict = new Dictionary<BigInteger, BigInteger>();
+            Dictionary<long, long> newDict = [];
 
-            foreach (BigInteger[] row in mapArray)
+            foreach (long[] row in mapArray)
             {
-                BigInteger value = row[0];
-                BigInteger key = row[1];
-                BigInteger rangeLength = row[2];
-                BigInteger modifier = 0;
+                long value = row[0];
+                long key = row[1];
+                long rangeLength = row[2];
+                long modifier = 0;
 
-                for (BigInteger i = key; i < (key + rangeLength); i++)
+                for (long i = key; i < (key + rangeLength); i++)
                 {
                     if (!newDict.ContainsKey(i))
                     {
-                        newDict[i] = (value + modifier);
+                        newDict[i] = value + modifier;
                     }
                     modifier++;
                 }
