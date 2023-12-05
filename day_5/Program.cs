@@ -23,13 +23,12 @@ class Program
             int[][] tempToHumidMap = GetMap(sections[6]);
             int[][] humidToLocationMap = GetMap(sections[7]);
 
-            Dictionary<int, int> SeedValueDict = new Dictionary<int, int>();
+            Dictionary<int, int> seedValueDict = new Dictionary<int, int>();
 
             foreach (int element in seedsArray)
             {
-                SeedValueDict[element] = element;
+                seedValueDict[element] = element;
             }
-            // Dictionary<int, int> SeedValueDict = seedsArray.ToDictionary(key => key, value => value);
 
             Dictionary<int, int>[] dicts = new Dictionary<int, int>[]
             {
@@ -41,18 +40,21 @@ class Program
                 MakeDict(tempToHumidMap),
                 MakeDict(humidToLocationMap)
             };
-            foreach (int key in SeedValueDict.Keys)
+
+            for (int i = 0; i < seedsArray.Length; i++)
             {
+                int startingValue = seedsArray[i];
+
                 foreach (Dictionary<int, int> dict in dicts)
                 {
-                    if (dict.ContainsKey(key))
+                    if (dict.ContainsKey(startingValue))
                     {
-                        SeedValueDict[key] = dict[key];
+                        startingValue = dict[startingValue];
                     }
                 }
+                seedValueDict[seedsArray[i]] = startingValue;
             }
-
-            Console.WriteLine("lowest value: " + SeedValueDict.Values.Min());
+            Console.WriteLine("lowest value: " + seedValueDict.Values.Min());
         }
         catch (IOException e)
         {
@@ -87,10 +89,6 @@ class Program
                 modifier++;
             }
         }
-        // foreach (var kvp in newDict)
-        // {
-        //     Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
-        // }
         return newDict;
     }
 }
