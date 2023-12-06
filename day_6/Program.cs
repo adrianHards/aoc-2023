@@ -8,34 +8,31 @@
             string raceData = File.ReadAllText(filePath);
             string[] raceSections = raceData.Split("\n");
 
-            string timeValues = raceSections[0].Split(":")[1];
-            int[] timeArray = Array.ConvertAll(timeValues.Split(" ", StringSplitOptions.RemoveEmptyEntries), int.Parse);
+            string timeValues = raceSections[0].Split(":")[1].Trim();
+            string[] timeArray = timeValues.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            string concatTime = string.Join("", timeArray);
+            long timeAsInteger = long.Parse(concatTime);
 
-            string distValues = raceSections[1].Split(":")[1];
-            int[] distArray = Array.ConvertAll(distValues.Split(" ", StringSplitOptions.RemoveEmptyEntries), int.Parse);
+            string distValues = raceSections[1].Split(":")[1].Trim();
+            string[] distArray = distValues.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            string concatDist = string.Join("", distArray);
+            long distAsInteger = long.Parse(concatDist);
 
-            List<int> noOfWinsList = new List<int>();
+            int wins = 0;
+            long distToBeat = distAsInteger;
+            long start = (long)Math.Ceiling((double)distAsInteger / timeAsInteger);
+            long end = timeAsInteger - 1;
 
-            for (int i = 0; i < timeArray.Length; i++)
+            for (long timeHeld = start; timeHeld <= end; timeHeld++)
             {
-                int wins = 0;
-                int distToBeat = distArray[i];
-                int start = (int)Math.Ceiling((double)distArray[i] / timeArray[i]);
-                int end = timeArray[i] - 1;
-
-                for (int timeHeld = start; timeHeld <= end; timeHeld++)
+                long timeRemain = timeAsInteger - timeHeld;
+                if (timeHeld * timeRemain > distAsInteger)
                 {
-                    int timeRemain = timeArray[i] - timeHeld;
-                    if (timeHeld * timeRemain > distToBeat)
-                    {
-                        wins++;
-                    }
+                    wins++;
                 }
-                noOfWinsList.Add(wins);
             }
 
-            int productOfWins = noOfWinsList.Aggregate(1, (acc, x) => acc * x);
-            Console.WriteLine($"wins: {productOfWins}");
+            Console.WriteLine($"wins: {wins}");
         }
     }
 }
