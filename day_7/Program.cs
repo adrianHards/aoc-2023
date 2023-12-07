@@ -10,7 +10,7 @@
                 ["K"] = 13,
                 ["Q"] = 12,
                 ["J"] = 11,
-                ["10"] = 10,
+                ["T"] = 10,
                 ["9"] = 9,
                 ["8"] = 8,
                 ["7"] = 7,
@@ -36,27 +36,27 @@
                 string filePath = "./testinput.txt";
                 string[] rows = File.ReadAllLines(filePath);
 
-                Dictionary<string, (int labelsAsInts, int multiplier, int type, int rank)> cardDictionary = new();
+                Dictionary<string, (List<int> labelValues, int multiplier, int type, int rank)> cardDictionary = new();
 
                 foreach (string row in rows)
                 {
                     string card = row.Substring(0, 5);
                     int multiplier = int.Parse(row.Substring(5).Trim());
-                    string labelsAsString = "";
+                    List<int> labelValues = new List<int>();
 
                     foreach (char c in card)
                     {
                         string label = c.ToString();
                         if (cardValue.TryGetValue(label, out int value))
                         {
-                            labelsAsString += value.ToString();
+                            labelValues.Add(value);
                         }
                     }
 
-                    int labelsAsInts = int.Parse(labelsAsString);
-                    cardDictionary[card] = (labelsAsInts, multiplier, 0, 0);
+                    cardDictionary[card] = (labelValues, multiplier, 0, 0);
                 }
 
+                // find type
                 foreach (var kvp in cardDictionary)
                 {
                     string card = kvp.Key;
@@ -81,13 +81,25 @@
                     string resultKey = string.Join(",", resultArray);
                     int typeRank = typeValue[resultKey];
 
-                    cardDictionary[card] = (cardDictionary[card].labelsAsInts, cardDictionary[card].multiplier, typeRank, cardDictionary[card].rank);
+                    cardDictionary[card] = (cardDictionary[card].labelValues, cardDictionary[card].multiplier, typeRank, cardDictionary[card].rank);
                 }
 
-                foreach (var kvp in cardDictionary)
+                int currentRank = 1;
+                var orderedByType = cardDictionary.OrderBy(card => card.Value.type).ToList();
+                var groupedByType = orderedByType.GroupBy(card => card.Value.type);
+
+                foreach (var typeGroup in groupedByType)
                 {
-                    var (labelsAsInts, multiplier, type, rank) = kvp.Value;
-                    Console.WriteLine($"Card: {kvp.Key}, Num: {labelsAsInts}, Multiplier: {multiplier}, Type: {type}, Rank: {rank}");
+                    foreach (var card in typeGroup)
+                    {
+                        cardDictionary[card.Key] = (card.Value.labelValues, card.Value.multiplier, card.Value.type, currentRank);
+                        currentRank++;
+                    }
+                }
+
+                foreach (var card in cardDictionary)
+                {
+                    Console.WriteLine($"Card: {card.Key}, Multiplier: {card.Value.multiplier}, Type: {card.Value.type}, Rank: {card.Value.rank}");
                 }
             }
         }
