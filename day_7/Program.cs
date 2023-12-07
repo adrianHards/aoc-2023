@@ -25,21 +25,31 @@
                 string filePath = "./testinput.txt";
                 string[] rows = File.ReadAllLines(filePath);
 
-                Dictionary<string, (int multiplier, int rank)> cardDictionary = new();
+                Dictionary<string, (int multiplier, int count, int rank)> cardDictionary = new();
 
                 foreach (string row in rows)
                 {
                     string card = row.Substring(0, 5);
                     int multiplier = int.Parse(row.Substring(5).Trim());
-                    cardDictionary[card] = (multiplier, 0);
+                    cardDictionary[card] = (multiplier, 0, 0);
                 }
 
-                // int strength = cardValue.TryGetValue(card, out int value) ? value : 0;
-
-                // foreach (var kvp in cardDictionary)
-                // {
-                //     Console.WriteLine($"Card: {kvp.Key}, Multiplier: {kvp.Value.multiplier}, Rank: {kvp.Value.rank}");
-                // }
+                foreach (var kvp in cardDictionary)
+                {
+                    string card = kvp.Key;
+                    foreach (char label in card)
+                    {
+                        Dictionary<char, int> labelCount = new();
+                        if (labelCount.ContainsKey(label))
+                        {
+                            labelCount[label]++;
+                        }
+                        else
+                        {
+                            labelCount[label] = 1;
+                        }
+                    }
+                }
             }
         }
     }
