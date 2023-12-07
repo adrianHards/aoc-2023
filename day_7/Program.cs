@@ -33,7 +33,7 @@
             };
 
             {
-                string filePath = "./testinput.txt";
+                string filePath = "./input.txt";
                 string[] rows = File.ReadAllLines(filePath);
 
                 Dictionary<string, (List<int> labelValues, int multiplier, int type, int rank)> cardDictionary = new();
@@ -56,7 +56,6 @@
                     cardDictionary[card] = (labelValues, multiplier, 0, 0);
                 }
 
-                // find type
                 foreach (var kvp in cardDictionary)
                 {
                     string card = kvp.Key;
@@ -64,7 +63,6 @@
 
                     foreach (char label in card)
                     {
-
                         if (labelCount.ContainsKey(label))
                         {
                             labelCount[label]++;
@@ -120,10 +118,15 @@
                     }
                 }
 
-                foreach (var card in cardDictionary)
+                int totalWinnings = 0;
+
+                foreach (var kvp in cardDictionary)
                 {
-                    Console.WriteLine($"Card: {card.Key}, Multiplier: {card.Value.multiplier}, Type: {card.Value.type}, Rank: {card.Value.rank}");
+                    var card = kvp.Value;
+                    totalWinnings += card.multiplier * card.rank;
                 }
+
+                Console.WriteLine($"Total Winnings: {totalWinnings}");
             }
 
         }
