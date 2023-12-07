@@ -9,7 +9,6 @@
                 ["A"] = 14,
                 ["K"] = 13,
                 ["Q"] = 12,
-                ["J"] = 11,
                 ["T"] = 10,
                 ["9"] = 9,
                 ["8"] = 8,
@@ -18,7 +17,8 @@
                 ["5"] = 5,
                 ["4"] = 4,
                 ["3"] = 3,
-                ["2"] = 2
+                ["2"] = 2,
+                ["J"] = 1
             };
 
             Dictionary<string, int> typeValue = new Dictionary<string, int>
@@ -30,6 +30,7 @@
                 { "2,2,1,0,0", 3 },
                 { "2,1,1,1,0", 2 },
                 { "1,1,1,1,1", 1 },
+                { "0,0,0,0,0", 0}
             };
 
             {
@@ -63,16 +64,27 @@
 
                     foreach (char label in card)
                     {
-                        if (labelCount.ContainsKey(label))
+                        if (labelCount.ContainsKey(label) && label != 'J')
                         {
                             labelCount[label]++;
                         }
-                        else
+                        else if (label != 'J')
                         {
                             labelCount[label] = 1;
                         }
                     }
+
                     var orderedValues = labelCount.OrderByDescending(label => label.Value).Select(label => label.Value).ToArray();
+
+                    if (card.Contains("J"))
+                    {
+                        int countOfJ = card.Count(c => c == 'J');
+                        if (orderedValues.Length > 0)
+                        {
+                            orderedValues[0] += countOfJ;
+                        }
+                    }
+
                     int[] resultArray = new int[5];
                     Array.Copy(orderedValues, resultArray, Math.Min(5, orderedValues.Length));
 
