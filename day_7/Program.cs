@@ -85,15 +85,38 @@
                 }
 
                 int currentRank = 1;
-                var orderedByType = cardDictionary.OrderBy(card => card.Value.type).ToList();
-                var groupedByType = orderedByType.GroupBy(card => card.Value.type);
+                var groupedByType = cardDictionary.OrderBy(card => card.Value.type)
+                    .GroupBy(card => card.Value.type)
+                    .ToList();
 
                 foreach (var typeGroup in groupedByType)
                 {
-                    foreach (var card in typeGroup)
+                    if (typeGroup.Count() == 1)
                     {
-                        cardDictionary[card.Key] = (card.Value.labelValues, card.Value.multiplier, card.Value.type, currentRank);
+                        var singleCard = typeGroup.First();
+                        cardDictionary[singleCard.Key] = (singleCard.Value.labelValues, singleCard.Value.multiplier, singleCard.Value.type, currentRank);
                         currentRank++;
+                    }
+                    else
+                    {
+                        var sortedGroup = typeGroup.OrderBy(card => card.Value.labelValues, Comparer<List<int>>.Create((x, y) =>
+                        {
+                            int minLength = Math.Min(x.Count, y.Count);
+                            for (int i = 0; i < minLength; i++)
+                            {
+                                if (x[i] != y[i])
+                                {
+                                    return x[i].CompareTo(y[i]);
+                                }
+                            }
+                            return x.Count.CompareTo(y.Count);
+                        })).ToArray();
+
+                        foreach (var card in sortedGroup)
+                        {
+                            cardDictionary[card.Key] = (card.Value.labelValues, card.Value.multiplier, card.Value.type, currentRank);
+                            currentRank++;
+                        }
                     }
                 }
 
@@ -102,6 +125,7 @@
                     Console.WriteLine($"Card: {card.Key}, Multiplier: {card.Value.multiplier}, Type: {card.Value.type}, Rank: {card.Value.rank}");
                 }
             }
+
         }
     }
 }
