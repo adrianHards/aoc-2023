@@ -87,16 +87,6 @@
                             countOfJ = 0;
                         }
 
-                        if (resultArray[0] == 1)
-                        {
-                            while (countOfJ > 0)
-                            {
-                                int index = Array.FindIndex(resultArray, num => num == 0);
-                                resultArray[index] = 1;
-                                countOfJ--;
-                            }
-                        }
-
                         else
                         {
                             resultArray[0] += countOfJ;
