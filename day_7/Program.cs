@@ -21,7 +21,7 @@
                 ["J"] = 1
             };
 
-            Dictionary<string, int> typeValue = new Dictionary<string, int>
+            Dictionary<string, int> typeValue = new()
             {
                 { "5,0,0,0,0", 7 },
                 { "4,1,0,0,0", 6 },
@@ -29,21 +29,20 @@
                 { "3,1,1,0,0", 4 },
                 { "2,2,1,0,0", 3 },
                 { "2,1,1,1,0", 2 },
-                { "1,1,1,1,1", 1 },
-                { "0,0,0,0,0", 0}
+                { "1,1,1,1,1", 1 }
             };
 
             {
                 string filePath = "./input.txt";
                 string[] rows = File.ReadAllLines(filePath);
 
-                Dictionary<string, (List<int> labelValues, int multiplier, int type, int rank)> cardDictionary = new();
+                Dictionary<string, (List<int> labelValues, int multiplier, int type, int rank)> cardDictionary = [];
 
                 foreach (string row in rows)
                 {
-                    string card = row.Substring(0, 5);
-                    int multiplier = int.Parse(row.Substring(5).Trim());
-                    List<int> labelValues = new List<int>();
+                    string card = row[..5];
+                    int multiplier = int.Parse(row[5..].Trim());
+                    List<int> labelValues = [];
 
                     foreach (char c in card)
                     {
@@ -60,13 +59,13 @@
                 foreach (var kvp in cardDictionary)
                 {
                     string card = kvp.Key;
-                    Dictionary<char, int> labelCount = new();
+                    Dictionary<char, int> labelCount = [];
 
                     foreach (char label in card)
                     {
-                        if (labelCount.ContainsKey(label) && label != 'J')
+                        if (labelCount.TryGetValue(label, out int value) && label != 'J')
                         {
-                            labelCount[label]++;
+                            labelCount[label] = ++value;
                         }
                         else if (label != 'J')
                         {
@@ -75,18 +74,34 @@
                     }
 
                     var orderedValues = labelCount.OrderByDescending(label => label.Value).Select(label => label.Value).ToArray();
-
-                    if (card.Contains("J"))
-                    {
-                        int countOfJ = card.Count(c => c == 'J');
-                        if (orderedValues.Length > 0)
-                        {
-                            orderedValues[0] += countOfJ;
-                        }
-                    }
-
                     int[] resultArray = new int[5];
                     Array.Copy(orderedValues, resultArray, Math.Min(5, orderedValues.Length));
+
+                    if (card.Contains('J'))
+                    {
+                        int countOfJ = card.Count(c => c == 'J');
+
+                        if (countOfJ == 5)
+                        {
+                            resultArray = [5, 0, 0, 0, 0];
+                            countOfJ = 0;
+                        }
+
+                        if (resultArray[0] == 1)
+                        {
+                            while (countOfJ > 0)
+                            {
+                                int index = Array.FindIndex(resultArray, num => num == 0);
+                                resultArray[index] = 1;
+                                countOfJ--;
+                            }
+                        }
+
+                        else
+                        {
+                            resultArray[0] += countOfJ;
+                        }
+                    }
 
                     string resultKey = string.Join(",", resultArray);
                     int typeRank = typeValue[resultKey];
@@ -134,13 +149,12 @@
 
                 foreach (var kvp in cardDictionary)
                 {
-                    var card = kvp.Value;
-                    totalWinnings += card.multiplier * card.rank;
+                    var (labelValues, multiplier, type, rank) = kvp.Value;
+                    totalWinnings += multiplier * rank;
                 }
 
                 Console.WriteLine($"Total Winnings: {totalWinnings}");
             }
-
         }
     }
 }
