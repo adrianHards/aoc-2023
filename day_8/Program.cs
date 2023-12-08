@@ -10,7 +10,7 @@
                 { "R", "right" }
             };
 
-            string filePath = "./testinput.txt";
+            string filePath = "./input.txt";
             string fileContent = File.ReadAllText(filePath);
 
             string[] sections = fileContent.Split("\n\n");
@@ -35,6 +35,8 @@
 
             HashSet<string> locationHashSet = new HashSet<string>();
             var startingPoints = mapDict.Keys.Where(key => key.EndsWith("A")).ToList();
+            Dictionary<string, string> previousLocations = startingPoints.ToDictionary(key => key, _ => string.Empty);
+
             bool allFinished = false;
 
             while (!allFinished)
@@ -43,6 +45,17 @@
 
                 foreach (var startingPoint in startingPoints)
                 {
+                    if (count == 1)
+                    {
+                        location = startingPoint;
+                    }
+                    else
+                    {
+                        location = previousLocations[startingPoint];
+                    }
+
+                    Console.WriteLine("starting point: " + startingPoint + " previous: " + previousLocations[startingPoint] + "index: " + index + " location: " + location);
+
                     direction = $"{instructions[index]}";
 
                     if (direction == "L")
@@ -54,6 +67,7 @@
                         location = mapDict[location].right;
                     }
 
+                    previousLocations[startingPoint] = location;
                     locationHashSet.Add(location);
                 }
 
@@ -67,11 +81,13 @@
                 }
 
                 index++;
+
                 if (index >= instructions.Length)
                 {
                     index = 0;
                 }
             }
+            Console.WriteLine(count);
         }
     }
 }
