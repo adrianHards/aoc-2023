@@ -54,7 +54,7 @@
                         location = previousLocations[startingPoint];
                     }
 
-                    Console.WriteLine("starting point: " + startingPoint + " previous: " + previousLocations[startingPoint] + "index: " + index + " location: " + location);
+                    Console.WriteLine("starting point: " + startingPoint + " previous: " + previousLocations[startingPoint] + "index: " + index + " location: " + location + "count " + count);
 
                     direction = $"{instructions[index]}";
 
