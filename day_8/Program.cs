@@ -4,6 +4,12 @@
     {
         static void Main(string[] args)
         {
+            Dictionary<string, string> directionDict = new()
+            {
+                { "L", "left" },
+                { "R", "right" }
+            };
+
             string filePath = "./testinput.txt";
             string fileContent = File.ReadAllText(filePath);
 
@@ -21,6 +27,9 @@
                 string right = step[12..14];
                 mapDict[key] = (left, right);
             }
+
+
+
         }
     }
 }
