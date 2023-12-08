@@ -76,6 +76,7 @@
     }
 }
 
+// PART 1:
 // string location = "AAA";
 // while (location != "ZZZ")
 // {
