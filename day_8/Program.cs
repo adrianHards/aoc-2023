@@ -10,7 +10,7 @@
                 { "R", "right" }
             };
 
-            string filePath = "./input.txt";
+            string filePath = "./testinput.txt";
             string fileContent = File.ReadAllText(filePath);
 
             string[] sections = fileContent.Split("\n\n");
@@ -22,7 +22,6 @@
 
             foreach (string step in steps)
             {
-                Console.WriteLine(step);
                 string key = step[0..3];
                 string left = step[7..10];
                 string right = step[12..15];
@@ -32,31 +31,72 @@
             int count = 0;
             int index = 0;
             string direction = "";
-            string location = "AAA";
+            string location = "";
 
-            while (location != "ZZZ")
+            HashSet<string> locationHashSet = new HashSet<string>();
+            var startingPoints = mapDict.Keys.Where(key => key.EndsWith("A")).ToList();
+            bool allFinished = false;
+
+            while (!allFinished)
             {
+                count++;
+
+                foreach (var startingPoint in startingPoints)
+                {
+                    direction = $"{instructions[index]}";
+
+                    if (direction == "L")
+                    {
+                        location = mapDict[location].left;
+                    }
+                    else if (direction == "R")
+                    {
+                        location = mapDict[location].right;
+                    }
+
+                    locationHashSet.Add(location);
+                }
+
+                if (locationHashSet.All(item => item.EndsWith("Z")))
+                {
+                    allFinished = true;
+                }
+                else
+                {
+                    locationHashSet.Clear();
+                }
+
+                index++;
                 if (index >= instructions.Length)
                 {
                     index = 0;
                 }
-
-                count++;
-                direction = $"{instructions[index]}";
-
-                if (direction == "L")
-                {
-                    location = mapDict[location].left;
-                }
-                else if (direction == "R")
-                {
-                    location = mapDict[location].right;
-                }
-
-                index++;
             }
-
-            Console.WriteLine(count);
         }
     }
 }
+
+// string location = "AAA";
+// while (location != "ZZZ")
+// {
+//     if (index >= instructions.Length)
+//     {
+//         index = 0;
+//     }
+
+//     count++;
+//     direction = $"{instructions[index]}";
+
+//     if (direction == "L")
+//     {
+//         location = mapDict[location].left;
+//     }
+//     else if (direction == "R")
+//     {
+//         location = mapDict[location].right;
+//     }
+
+//     index++;
+// }
+
+// Console.WriteLine(count);
