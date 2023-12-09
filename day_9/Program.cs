@@ -4,9 +4,10 @@ class Program
 {
     static void Main(string[] args)
     {
-        string filePath = "./testinput.txt";
+        string filePath = "./input.txt";
         string[] rows = File.ReadAllLines(filePath);
         int[][] arrayOfIntegers = new int[rows.Length][];
+        int sum = 0;
 
         for (int i = 0; i < rows.Length; i++)
         {
@@ -18,6 +19,7 @@ class Program
         {
             var numbers = new List<int>(integersArray);
             var histories = new List<List<int>>();
+            histories.Add(numbers);
 
             while (true)
             {
@@ -35,10 +37,13 @@ class Program
                 numbers = differences;
             }
 
-            foreach (var history in histories)
+            for (int i = histories.Count - 2; i >= 0; i--)
             {
-                Console.WriteLine(string.Join(" ", history));
+                histories[i].Add(histories[i + 1][^1] + histories[i][^1]);
+                // Console.WriteLine(string.Join(" ", histories[i]));
             }
+            sum += histories[0][^1];
         }
+        Console.WriteLine(sum);
     }
 }
