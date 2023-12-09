@@ -37,11 +37,11 @@ class Program
                 numbers = differences;
             }
 
-            for (int i = histories.Count - 2; i >= 0; i--)
+            for (int i = histories.Count - 2; i >= 1; i--)
             {
-                histories[i].Add(histories[i + 1][^1] + histories[i][^1]);
-                // Console.WriteLine(string.Join(" ", histories[i]));
+                histories[i - 1].Add(histories[i - 1][0] - histories[i][^1]);
             }
+
             sum += histories[0][^1];
         }
         Console.WriteLine(sum);
