@@ -73,15 +73,16 @@ class Program
         (int row, int col) direction = (row: 1, col: 0);
         int rowIndex = startRowIndex + direction.row;
         int colIndex = startColumnIndex + direction.col;
-        int pipe = arraysOfChars[rowIndex][colIndex];
+        char currentChar = arraysOfChars[rowIndex][colIndex];
 
-        while (pipe != "S")
-        {
-            count++;
+        // while (pipe != "S")
+        // {
+        //     count++;
 
-            foreach (Tuple<int, int> direction validPathDict[pipe].Values())
 
-        }
+        //     // char currentChar = arraysOfChars[rowIndex][colIndex];
+
+        // }
 
     }
 }
