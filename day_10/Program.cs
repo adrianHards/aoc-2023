@@ -13,8 +13,8 @@ class Program
             arraysOfChars[i] = rows[i].ToCharArray();
         }
 
-        int rowIndexS = 0;
-        int columnIndexS = 0;
+        int rowIndexOfS = 0;
+        int columnIndexOfS = 0;
 
         for (int i = 0; i < arraysOfChars.Length; i++)
         {
@@ -22,8 +22,8 @@ class Program
             {
                 if (arraysOfChars[i][j] == 'S')
                 {
-                    rowIndex = i;
-                    columnIndex = j;
+                    rowIndexOfS = i;
+                    columnIndexOfS = j;
                     break;
                 }
             }
