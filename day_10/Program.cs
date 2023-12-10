@@ -13,8 +13,8 @@ class Program
             arraysOfChars[i] = rows[i].ToCharArray();
         }
 
-        int rowIndexOfS = 0;
-        int columnIndexOfS = 0;
+        int startRowIndex = 0;
+        int startColumnIndex = 0;
 
         for (int i = 0; i < arraysOfChars.Length; i++)
         {
@@ -22,11 +22,66 @@ class Program
             {
                 if (arraysOfChars[i][j] == 'S')
                 {
-                    rowIndexOfS = i;
-                    columnIndexOfS = j;
+                    startRowIndex = i;
+                    startColumnIndex = j;
                     break;
                 }
             }
         }
+
+        Dictionary<(int row, int col), Dictionary<string, (int row, int col)>> validPathDict = new()
+        {
+            {
+                // from left
+                (row: 0, col: 1), new Dictionary<string, (int row, int col)>
+                {
+                    { "J", (row: 1, col: 0) },
+                    { "7", (row: -1, col: 0) },
+                    { "-", (row: 0, col: 1) }
+                }
+            },
+            {
+                // from right
+                (row: 0, col: -1), new Dictionary<string, (int row, int col)>
+                {
+                    { "F", (row: 1, col: 0) },
+                    { "L", (row: -1, col: 0) },
+                    { "-", (row: 0, col: -1) }
+                }
+            },
+            {
+                // from top
+                (row: 1, col: 0), new Dictionary<string, (int row, int col)>
+                {
+                    { "|", (row: 1, col: 0) },
+                    { "L", (row: 0, col: 1) },
+                    { "J", (row: 0, col: -1) }
+                }
+            },
+            {
+                // from bottom
+                (row: -1, col: 0), new Dictionary<string, (int row, int col)>
+                {
+                    { "|", (row: -1, col: 0) },
+                    { "F", (row: 0, col: 1) },
+                    { "7", (row: 0, col: -1) }
+                }
+            }
+        };
+
+        int count = 1;
+        (int row, int col) direction = (row: 1, col: 0);
+        int rowIndex = startRowIndex + direction.row;
+        int colIndex = startColumnIndex + direction.col;
+        int pipe = arraysOfChars[rowIndex][colIndex];
+
+        while (pipe != "S")
+        {
+            count++;
+
+            foreach (Tuple<int, int> direction validPathDict[pipe].Values())
+
+        }
+
     }
 }
