@@ -10,8 +10,23 @@
             var starCoords = FindStarCoordinates(arrayOfStars);
             var emptyRows = FindEmptyRows(arrayOfStars);
             var emptyCols = FindEmptyColumns(arrayOfStars);
+            var allCombinations = FindCombinations(starCoords, 2);
+            var distancesBetweenStars = FindDistances(starCoords, allCombinations, emptyRows, emptyCols);
+            sumDistances(distancesBetweenStars);
+        }
 
-            var allCombinations = Combinations(starCoords, 2);
+        static void sumDistances(List<int> distances)
+        {
+            int sum = 0;
+            foreach (int distance in distances)
+            {
+                sum += distance;
+            }
+            Console.WriteLine(sum);
+        }
+
+        static List<int> FindDistances(List<Tuple<int, int>> coords, IEnumerable<IEnumerable<Tuple<int, int>>> combinations, List<int> emptyRows, List<int> emptyCols)
+        {
 
         }
 
@@ -77,7 +92,7 @@
             return emptyCols;
         }
 
-        static IEnumerable<IEnumerable<T>> Combinations<T>(IEnumerable<T> elements, int k)
+        static IEnumerable<IEnumerable<T>> FindCombinations<T>(IEnumerable<T> elements, int k)
         {
             if (k == 0) yield return Enumerable.Empty<T>();
 
@@ -86,7 +101,7 @@
             {
                 if (elements.Skip(i + 1).Any())
                 {
-                    foreach (var combination in Combinations(elements.Skip(i + 1), k - 1))
+                    foreach (var combination in FindCombinations(elements.Skip(i + 1), k - 1))
                     {
                         yield return new T[] { element }.Concat(combination);
                     }
