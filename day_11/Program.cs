@@ -45,7 +45,7 @@
                 var minCol = Math.Min(firstCol, secondCol);
                 var maxCol = Math.Max(firstCol, secondCol);
                 var countEmptyColsInRange = emptyCols.Count(row => row >= minCol && row <= maxCol);
-                int modifier = 1000000;
+                int modifier = 999999;
                 int extraRowGalaxies = modifier * countEmptyRowsInRange;
                 int extraColGalaxies = modifier * countEmptyColsInRange;
 
