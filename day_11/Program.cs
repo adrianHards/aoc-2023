@@ -5,69 +5,76 @@
         static void Main(string[] args)
         {
             string filePath = "./testinput.txt";
+            char[][] arrayOfStars = ReadAndProcessFile(filePath);
+
+            var starCoords = FindStarCoordinates(arrayOfStars);
+            var emptyRows = FindEmptyRows(arrayOfStars);
+            var emptyCols = FindEmptyColumns(arrayOfStars);
+
+            var allCombinations = Combinations(starCoords, 2);
+
+        }
+
+        static char[][] ReadAndProcessFile(string filePath)
+        {
             string[] rows = File.ReadAllLines(filePath);
             char[][] arrayOfStars = new char[rows.Length][];
-
-            List<Tuple<int, int>> starCoords = new();
-            List<int> emptyRows = [];
-            List<int> emptyCols = [];
-
             for (int i = 0; i < rows.Length; i++)
             {
                 arrayOfStars[i] = rows[i].ToCharArray();
             }
+            return arrayOfStars;
+        }
 
+        static List<Tuple<int, int>> FindStarCoordinates(char[][] arrayOfStars)
+        {
+            List<Tuple<int, int>> starCoords = new List<Tuple<int, int>>();
             for (int i = 0; i < arrayOfStars.Length; i++)
             {
-                int row = i;
-
-                if (arrayOfStars[row].All(c => c == '.'))
+                for (int j = 0; j < arrayOfStars[i].Length; j++)
                 {
-                    emptyRows.Add(row);
-                    Console.WriteLine("row: " + row);
-                }
-
-                for (int j = 0; j < arrayOfStars[row].Length; j++)
-                {
-                    int col = j;
-                    if (arrayOfStars[row][col] == '#')
+                    if (arrayOfStars[i][j] == '#')
                     {
-                        starCoords.Add(new Tuple<int, int>(row, col));
+                        starCoords.Add(new Tuple<int, int>(i, j));
                     }
                 }
             }
+            return starCoords;
+        }
 
+        static List<int> FindEmptyRows(char[][] arrayOfStars)
+        {
+            List<int> emptyRows = new List<int>();
+            for (int i = 0; i < arrayOfStars.Length; i++)
+            {
+                if (arrayOfStars[i].All(c => c == '.'))
+                {
+                    emptyRows.Add(i);
+                }
+            }
+            return emptyRows;
+        }
+
+        static List<int> FindEmptyColumns(char[][] arrayOfStars)
+        {
+            List<int> emptyCols = new List<int>();
             for (int j = 0; j < arrayOfStars[0].Length; j++)
             {
-                int col = j;
                 bool colIsEmpty = true;
                 for (int i = 0; i < arrayOfStars.Length; i++)
                 {
-                    int row = i;
-                    if (arrayOfStars[row][col] != '.')
+                    if (arrayOfStars[i][j] != '.')
                     {
                         colIsEmpty = false;
                         break;
                     }
                 }
-
                 if (colIsEmpty)
                 {
-                    emptyCols.Add(col);
-                    Console.WriteLine("col: " + col);
+                    emptyCols.Add(j);
                 }
             }
-
-            var allCombinations = Combinations(starCoords, 2);
-
-            // foreach (var combination in allCombinations)
-            // {
-            //     foreach (var coord in combination)
-            //     {
-            //         Console.Write($"{coord} ");
-            //     }
-            //     Console.WriteLine();
-            // }
+            return emptyCols;
         }
 
         static IEnumerable<IEnumerable<T>> Combinations<T>(IEnumerable<T> elements, int k)
