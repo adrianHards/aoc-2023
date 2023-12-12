@@ -8,16 +8,24 @@
             string[] rows = File.ReadAllLines(filePath);
             char[][] arrayOfStars = new char[rows.Length][];
 
+            List<Tuple<int, int>> starCoords = new();
+            List<int> emptyRows = [];
+
             for (int i = 0; i < rows.Length; i++)
             {
                 arrayOfStars[i] = rows[i].ToCharArray();
             }
 
-            List<Tuple<int, int>> starCoords = new();
 
             for (int i = 0; i < arrayOfStars.Length; i++)
             {
                 int row = i;
+
+                if (arrayOfStars[row].All(c => c == '.'))
+                {
+                    emptyRows.Add(row);
+                }
+
                 for (int j = 0; j < arrayOfStars[row].Length; j++)
                 {
                     int col = j;
@@ -30,14 +38,14 @@
 
             var allCombinations = Combinations(starCoords, 2);
 
-            foreach (var combination in allCombinations)
-            {
-                foreach (var coord in combination)
-                {
-                    Console.Write($"{coord} ");
-                }
-                Console.WriteLine();
-            }
+            // foreach (var combination in allCombinations)
+            // {
+            //     foreach (var coord in combination)
+            //     {
+            //         Console.Write($"{coord} ");
+            //     }
+            //     Console.WriteLine();
+            // }
         }
 
         static IEnumerable<IEnumerable<T>> Combinations<T>(IEnumerable<T> elements, int k)
