@@ -27,17 +27,18 @@
 
         static List<int> FindDistances
         (
-            IEnumerable<IEnumerable<Tuple<int, int>>> combinations,
+            IEnumerable<IEnumerable<(int row, int col)>> combinations,
             List<int> emptyRows,
             List<int> emptyCols
         )
         {
             foreach (var combination in combinations)
             {
-                foreach (var tuple in combination)
+                foreach (var (row, col) in combination)
                 {
-                    Console.WriteLine($"({tuple.Item1}, {tuple.Item2})");
+                    Console.WriteLine($"Row: {row}, Column: {col}");
                 }
+                Console.WriteLine("");
             }
             return new List<int>();
         }
@@ -53,16 +54,16 @@
             return arrayOfStars;
         }
 
-        static List<Tuple<int, int>> FindStarCoordinates(char[][] arrayOfStars)
+        static List<(int row, int col)> FindStarCoordinates(char[][] arrayOfStars)
         {
-            List<Tuple<int, int>> starCoords = new List<Tuple<int, int>>();
+            List<(int row, int col)> starCoords = new List<(int row, int col)>();
             for (int i = 0; i < arrayOfStars.Length; i++)
             {
                 for (int j = 0; j < arrayOfStars[i].Length; j++)
                 {
                     if (arrayOfStars[i][j] == '#')
                     {
-                        starCoords.Add(new Tuple<int, int>(i, j));
+                        starCoords.Add((i, j));
                     }
                 }
             }
