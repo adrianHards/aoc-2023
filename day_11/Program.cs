@@ -32,15 +32,15 @@
             List<int> emptyCols
         )
         {
-            foreach (var combination in combinations)
+            var distances = combinations.Select(combination =>
             {
-                foreach (var (row, col) in combination)
-                {
-                    Console.WriteLine($"Row: {row}, Column: {col}");
-                }
-                Console.WriteLine("");
-            }
-            return new List<int>();
+                var coords = combination.ToList();
+                var (firstRow, firstCol) = coords[0];
+                var (secondRow, secondCol) = coords[1];
+                return Math.Abs(firstRow - secondRow) + Math.Abs(firstCol - secondCol);
+            }).ToList();
+
+            return distances;
         }
 
         static char[][] ReadAndProcessFile(string filePath)
