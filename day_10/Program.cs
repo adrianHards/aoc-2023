@@ -4,7 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        string filePath = "./testinput.txt";
+        string filePath = "./input.txt";
         string[] rows = File.ReadAllLines(filePath);
 
         char[][] arraysOfChars = new char[rows.Length][];
@@ -29,42 +29,42 @@ class Program
             }
         }
 
-        Dictionary<(int row, int col), Dictionary<string, (int row, int col)>> validPathDict = new()
+        Dictionary<(int row, int col), Dictionary<char, (int row, int col)>> directionDict = new()
         {
             {
                 // from left
-                (row: 0, col: 1), new Dictionary<string, (int row, int col)>
+                (row: 0, col: 1), new Dictionary<char, (int row, int col)>
                 {
-                    { "J", (row: 1, col: 0) },
-                    { "7", (row: -1, col: 0) },
-                    { "-", (row: 0, col: 1) }
+                    { 'J', (row: -1, col: 0) },
+                    { '7', (row: 1, col: 0) },
+                    { '-', (row: 0, col: 1) }
                 }
             },
             {
                 // from right
-                (row: 0, col: -1), new Dictionary<string, (int row, int col)>
+                (row: 0, col: -1), new Dictionary<char, (int row, int col)>
                 {
-                    { "F", (row: 1, col: 0) },
-                    { "L", (row: -1, col: 0) },
-                    { "-", (row: 0, col: -1) }
+                    { 'F', (row: 1, col: 0) },
+                    { 'L', (row: -1, col: 0) },
+                    { '-', (row: 0, col: -1) }
                 }
             },
             {
                 // from top
-                (row: 1, col: 0), new Dictionary<string, (int row, int col)>
+                (row: 1, col: 0), new Dictionary<char, (int row, int col)>
                 {
-                    { "|", (row: 1, col: 0) },
-                    { "L", (row: 0, col: 1) },
-                    { "J", (row: 0, col: -1) }
+                    { '|', (row: 1, col: 0) },
+                    { 'L', (row: 0, col: 1) },
+                    { 'J', (row: 0, col: -1) }
                 }
             },
             {
                 // from bottom
-                (row: -1, col: 0), new Dictionary<string, (int row, int col)>
+                (row: -1, col: 0), new Dictionary<char, (int row, int col)>
                 {
-                    { "|", (row: -1, col: 0) },
-                    { "F", (row: 0, col: 1) },
-                    { "7", (row: 0, col: -1) }
+                    { '|', (row: -1, col: 0) },
+                    { 'F', (row: 0, col: 1) },
+                    { '7', (row: 0, col: -1) }
                 }
             }
         };
@@ -75,14 +75,24 @@ class Program
         int colIndex = startColumnIndex + direction.col;
         char currentChar = arraysOfChars[rowIndex][colIndex];
 
-        // while (pipe != "S")
-        // {
-        //     count++;
+        while (currentChar != 'S')
+        {
+            count++;
 
+            rowIndex += direction.row;
+            colIndex += direction.col;
+            currentChar = arraysOfChars[rowIndex][colIndex];
 
-        //     // char currentChar = arraysOfChars[rowIndex][colIndex];
+            if (currentChar == 'S')
+            {
+                break;
+            }
 
-        // }
+            direction = directionDict[direction][currentChar];
+            Console.WriteLine(currentChar + " " + direction + "row " + rowIndex + "col " + colIndex);
+            Console.WriteLine(direction);
+        }
 
+        Console.WriteLine(count / 2);
     }
 }
