@@ -13,15 +13,18 @@
                 arrayOfStars[i] = rows[i].ToCharArray();
             }
 
-            List<int>[] starCoords = new List<int>[arrayOfStars.Length];
+            List<Tuple<int, int>> starCoords = new();
 
             for (int i = 0; i < arrayOfStars.Length; i++)
             {
-                starCoords[i] = new List<int>();
-                for (int j = 0; j < arrayOfStars[i].Length; j++)
+                int row = i;
+                for (int j = 0; j < arrayOfStars[row].Length; j++)
                 {
-                    starCoords[i].Add(j);
-                    Console.WriteLine(arrayOfStars[i][j]);
+                    int col = j;
+                    if (arrayOfStars[row][col] == '#')
+                    {
+                        starCoords.Add(new Tuple<int, int>(row, col));
+                    }
                 }
             }
         }
