@@ -11,7 +11,7 @@
             var emptyRows = FindEmptyRows(arrayOfStars);
             var emptyCols = FindEmptyColumns(arrayOfStars);
             var allCombinations = FindCombinations(starCoords, 2);
-            var distancesBetweenStars = FindDistances(starCoords, allCombinations, emptyRows, emptyCols);
+            var distancesBetweenStars = FindDistances(allCombinations, emptyRows, emptyCols);
             sumDistances(distancesBetweenStars);
         }
 
@@ -27,12 +27,18 @@
 
         static List<int> FindDistances
         (
-            List<Tuple<int, int>> coords,
             IEnumerable<IEnumerable<Tuple<int, int>>> combinations,
             List<int> emptyRows,
             List<int> emptyCols
         )
         {
+            foreach (var combination in combinations)
+            {
+                foreach (var tuple in combination)
+                {
+                    Console.WriteLine($"({tuple.Item1}, {tuple.Item2})");
+                }
+            }
             return new List<int>();
         }
 
