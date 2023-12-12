@@ -28,9 +28,15 @@
                 }
             }
 
-            foreach (Tuple<int, int> coords in starCoords)
+            var allCombinations = Combinations(starCoords, 2);
+
+            foreach (var combination in allCombinations)
             {
-                Console.WriteLine(coords);
+                foreach (var coord in combination)
+                {
+                    Console.Write($"{coord} ");
+                }
+                Console.WriteLine();
             }
         }
 
