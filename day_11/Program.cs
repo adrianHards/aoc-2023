@@ -10,12 +10,12 @@
 
             List<Tuple<int, int>> starCoords = new();
             List<int> emptyRows = [];
+            List<int> emptyCols = [];
 
             for (int i = 0; i < rows.Length; i++)
             {
                 arrayOfStars[i] = rows[i].ToCharArray();
             }
-
 
             for (int i = 0; i < arrayOfStars.Length; i++)
             {
@@ -24,6 +24,7 @@
                 if (arrayOfStars[row].All(c => c == '.'))
                 {
                     emptyRows.Add(row);
+                    Console.WriteLine("row: " + row);
                 }
 
                 for (int j = 0; j < arrayOfStars[row].Length; j++)
@@ -33,6 +34,27 @@
                     {
                         starCoords.Add(new Tuple<int, int>(row, col));
                     }
+                }
+            }
+
+            for (int j = 0; j < arrayOfStars[0].Length; j++)
+            {
+                int col = j;
+                bool colIsEmpty = true;
+                for (int i = 0; i < arrayOfStars.Length; i++)
+                {
+                    int row = i;
+                    if (arrayOfStars[row][col] != '.')
+                    {
+                        colIsEmpty = false;
+                        break;
+                    }
+                }
+
+                if (colIsEmpty)
+                {
+                    emptyCols.Add(col);
+                    Console.WriteLine("col: " + col);
                 }
             }
 
