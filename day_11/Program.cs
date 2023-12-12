@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            string filePath = "./testinput.txt";
+            string filePath = "./input.txt";
             char[][] arrayOfStars = ReadAndProcessFile(filePath);
 
             var starCoords = FindStarCoordinates(arrayOfStars);
@@ -32,7 +32,6 @@
             List<int> emptyCols
         )
         {
-            Console.WriteLine(combinations.Count());
             var distances = combinations.Select(combination =>
             {
                 var coords = combination.ToList();
@@ -46,8 +45,11 @@
                 var minCol = Math.Min(firstCol, secondCol);
                 var maxCol = Math.Max(firstCol, secondCol);
                 var countEmptyColsInRange = emptyCols.Count(row => row >= minCol && row <= maxCol);
+                int modifier = 1000000;
+                int extraRowGalaxies = modifier * countEmptyRowsInRange;
+                int extraColGalaxies = modifier * countEmptyColsInRange;
 
-                return Math.Abs(maxRow - minRow) + Math.Abs(maxCol - minCol);
+                return (Math.Abs(maxRow - minRow) + extraRowGalaxies) + (Math.Abs(maxCol - minCol) + extraColGalaxies);
             }).ToList();
 
             return distances;
@@ -118,18 +120,17 @@
         static IEnumerable<IEnumerable<T>> FindCombinations<T>(IEnumerable<T> elements, int k)
         {
             if (k == 0) yield return Enumerable.Empty<T>();
-
-            int i = 0;
-            foreach (T element in elements)
+            else
             {
-                if (elements.Skip(i + 1).Any())
+                int i = 0;
+                foreach (T element in elements)
                 {
                     foreach (var combination in FindCombinations(elements.Skip(i + 1), k - 1))
                     {
                         yield return new T[] { element }.Concat(combination);
                     }
+                    i++;
                 }
-                i++;
             }
         }
     }
