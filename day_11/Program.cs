@@ -25,9 +25,15 @@
             Console.WriteLine(sum);
         }
 
-        static List<int> FindDistances(List<Tuple<int, int>> coords, IEnumerable<IEnumerable<Tuple<int, int>>> combinations, List<int> emptyRows, List<int> emptyCols)
+        static List<int> FindDistances
+        (
+            List<Tuple<int, int>> coords,
+            IEnumerable<IEnumerable<Tuple<int, int>>> combinations,
+            List<int> emptyRows,
+            List<int> emptyCols
+        )
         {
-
+            return new List<int>();
         }
 
         static char[][] ReadAndProcessFile(string filePath)
