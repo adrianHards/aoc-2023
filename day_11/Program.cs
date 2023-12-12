@@ -21,6 +21,7 @@
                 for (int j = 0; j < arrayOfStars[i].Length; j++)
                 {
                     starCoords[i].Add(j);
+                    Console.WriteLine(arrayOfStars[i][j]);
                 }
             }
         }
