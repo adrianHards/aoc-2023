@@ -27,6 +27,11 @@
                     }
                 }
             }
+
+            foreach (Tuple<int, int> coords in starCoords)
+            {
+                Console.WriteLine(coords);
+            }
         }
 
         static IEnumerable<IEnumerable<T>> Combinations<T>(IEnumerable<T> elements, int k)
