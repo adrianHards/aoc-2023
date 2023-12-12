@@ -15,17 +15,17 @@
             sumDistances(distancesBetweenStars);
         }
 
-        static void sumDistances(List<int> distances)
+        static void sumDistances(List<long> distances)
         {
-            int sum = 0;
-            foreach (int distance in distances)
+            long sum = 0;
+            foreach (long distance in distances)
             {
                 sum += distance;
             }
             Console.WriteLine(sum);
         }
 
-        static List<int> FindDistances
+        static List<long> FindDistances
         (
             IEnumerable<IEnumerable<(int row, int col)>> combinations,
             List<int> emptyRows,
@@ -45,11 +45,11 @@
                 var minCol = Math.Min(firstCol, secondCol);
                 var maxCol = Math.Max(firstCol, secondCol);
                 var countEmptyColsInRange = emptyCols.Count(row => row >= minCol && row <= maxCol);
-                int modifier = 999999;
-                int extraRowGalaxies = modifier * countEmptyRowsInRange;
-                int extraColGalaxies = modifier * countEmptyColsInRange;
+                long modifier = 999999;
+                long extraRowGalaxies = modifier * countEmptyRowsInRange;
+                long extraColGalaxies = modifier * countEmptyColsInRange;
 
-                return (Math.Abs(maxRow - minRow) + extraRowGalaxies) + (Math.Abs(maxCol - minCol) + extraColGalaxies);
+                return (Math.Abs((long)maxRow - minRow) + extraRowGalaxies) + (Math.Abs((long)maxCol - minCol) + extraColGalaxies);
             }).ToList();
 
             return distances;
