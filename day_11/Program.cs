@@ -37,6 +37,15 @@
                 var coords = combination.ToList();
                 var (firstRow, firstCol) = coords[0];
                 var (secondRow, secondCol) = coords[1];
+
+                var minRow = Math.Min(firstRow, secondRow);
+                var maxRow = Math.Max(firstRow, secondRow);
+                var countEmptyRowsInRange = emptyRows.Count(row => row >= minRow && row <= maxRow);
+
+                var minCol = Math.Min(firstCol, secondCol);
+                var maxCol = Math.Max(firstCol, secondCol);
+                var countEmptyColsInRange = emptyCols.Count(row => row >= minCol && row <= maxCol);
+
                 return Math.Abs(firstRow - secondRow) + Math.Abs(firstCol - secondCol);
             }).ToList();
 
