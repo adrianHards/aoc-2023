@@ -32,6 +32,7 @@
             List<int> emptyCols
         )
         {
+            Console.WriteLine(combinations.Count());
             var distances = combinations.Select(combination =>
             {
                 var coords = combination.ToList();
@@ -46,7 +47,7 @@
                 var maxCol = Math.Max(firstCol, secondCol);
                 var countEmptyColsInRange = emptyCols.Count(row => row >= minCol && row <= maxCol);
 
-                return Math.Abs(firstRow - secondRow) + Math.Abs(firstCol - secondCol);
+                return Math.Abs(maxRow - minRow) + Math.Abs(maxCol - minCol);
             }).ToList();
 
             return distances;
